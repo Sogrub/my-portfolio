@@ -1,0 +1,30 @@
+---
+---
+
+<button
+  id="lang-switcher"
+  class="flex items-center gap-1 px-3 py-1.5 bg-[#04071D] border border-[#6971A2] rounded-lg text-white text-sm hover:border-[#cbacf9]/50 transition-colors"
+  aria-label="Change language"
+>
+  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="10"/>
+    <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+  </svg>
+  <span id="current-lang">EN</span>
+</button>
+
+<script>
+  const button = document.getElementById('lang-switcher');
+  const langSpan = document.getElementById('current-lang');
+
+  // Get current language from localStorage or default to 'en'
+  const currentLang = localStorage.getItem('lang') || 'en';
+  if (langSpan) langSpan.textContent = currentLang.toUpperCase();
+
+  button?.addEventListener('click', () => {
+    const current = localStorage.getItem('lang') || 'en';
+    const newLang = current === 'en' ? 'es' : 'en';
+    localStorage.setItem('lang', newLang);
+    window.location.reload();
+  });
+</script>

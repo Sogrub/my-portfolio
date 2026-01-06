@@ -1,0 +1,96 @@
+---
+interface ExperienceTranslation {
+  role: string;
+  highlights: readonly string[];
+}
+
+interface Props {
+  lang: "en" | "es";
+  t: {
+    title: string;
+    inlaze: ExperienceTranslation;
+    econtainers: ExperienceTranslation;
+    scotiabank: ExperienceTranslation;
+  };
+}
+
+const { lang, t } = Astro.props;
+
+const periods = {
+  en: {
+    inlaze: "April 2024 - Present",
+    econtainers: "August 2022 - March 2024",
+    scotiabank: "August 2020 - July 2022",
+  },
+  es: {
+    inlaze: "Abril 2024 - Actualidad",
+    econtainers: "Agosto 2022 - Marzo 2024",
+    scotiabank: "Agosto 2020 - Julio 2022",
+  },
+};
+
+const experiences = [
+  {
+    key: "inlaze" as const,
+    company: "Inlaze",
+    img: "Inlaze.png",
+    technologies: ["React", "NextJS", "NestJS", "Python", "PostgreSQL", "MongoDB", "N8N", "AI Tools", "AWS"],
+  },
+  {
+    key: "econtainers" as const,
+    company: "Econtainers",
+    img: "Econtainers.ico",
+    technologies: ["Angular", "NodeJS", "OpenAI", "SCRUM", "Google Cloud"],
+  },
+  {
+    key: "scotiabank" as const,
+    company: "Scotiabank",
+    img: "Scotiabank.ico",
+    technologies: ["SQL", "Python", "Excel VBA", "Power BI"],
+  },
+];
+---
+
+<section id="experience" class="flex flex-col pt-36 gap-8 text-white">
+  <h2 class="text-4xl font-bold text-center">{t.title}</h2>
+
+  <div class="flex flex-col gap-6">
+    {experiences.map((exp) => (
+      <article class="group bg-[#04071D] border border-[#6971A2] rounded-2xl p-6 md:p-8 transition-all duration-300 hover:bg-[#0a0e24] hover:border-[#cbacf9]/40 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#cbacf9]/10">
+        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+          <div class="flex items-start gap-4">
+            <figure class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#cbacf9]/10 transition-colors">
+              <img src={`/public/icons/${exp.img}`} alt={exp.company}>
+            </figure>
+            <div>
+              <h3 class="text-xl font-semibold text-white group-hover:text-[#cbacf9] transition-colors">
+                {t[exp.key].role}
+              </h3>
+              <p class="text-[#9ca3af] text-sm mt-1">{exp.company}</p>
+            </div>
+          </div>
+          <span class="text-[#fbbf24] text-sm font-medium whitespace-nowrap md:text-right">
+            {periods[lang][exp.key]}
+          </span>
+        </div>
+
+        <ul class="text-[#9ca3af] mt-4 space-y-2">
+          {t[exp.key].highlights.map((item) => (
+            <li class="flex gap-2 leading-relaxed">
+              <span class="text-[#cbacf9] mt-1">•</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="flex flex-wrap gap-2 mt-4">
+          {exp.technologies.map((tech) => (
+            <span class="px-3 py-1 bg-[#cbacf9]/10 text-[#cbacf9] text-xs rounded-full border border-[#cbacf9]/20">
+              {tech}
+            </span>
+          ))}
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

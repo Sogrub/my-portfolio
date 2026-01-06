@@ -1,0 +1,163 @@
+---
+interface Props {
+  lang: "en" | "es";
+  t: {
+    about: string;
+    experience: string;
+    projects: string;
+    contact: string;
+  };
+}
+
+const { lang, t } = Astro.props;
+
+const options = [
+  { name: t.about, href: "#about" },
+  { name: t.experience, href: "#experience" },
+  // { name: t.projects, href: "#projects" },
+  { name: t.contact, href: "#contact" },
+];
+
+const otherLang = lang === "en" ? "es" : "en";
+---
+
+<header class="h-28 md:h-40">
+  <nav class="nav-container fixed left-1/2 top-4 md:top-8 -translate-x-1/2 z-50 flex justify-between md:justify-center items-center gap-4 md:gap-8 w-[calc(100%-2rem)] md:w-fit bg-[#04071D] py-4 md:py-6 px-4 md:px-12 border border-[#6971A2] rounded-2xl">
+    <a href={`/${lang}/`}>
+      <figure class="w-32 md:w-40 h-8 md:h-10">
+        <img
+          class="w-full h-full object-contain"
+          src="/images/Firma.webp"
+          alt="Sogrub"
+        />
+      </figure>
+    </a>
+
+    <div class="hidden md:flex items-center gap-8 md:ml-12">
+      {options.map((option) => (
+        <a
+          class="nav-link relative text-white text-xl hover:text-[#cbacf9] before:content-[''] before:absolute before:w-2 before:h-2 before:bg-[#cbacf9] before:rounded-full before:left-1/2 before:-bottom-4 before:-translate-x-1/2 before:opacity-0 hover:before:opacity-100 before:transition-opacity whitespace-nowrap"
+          href={option.href}
+        >
+          {option.name}
+        </a>
+      ))}
+
+      <a
+        href={`/${otherLang}/`}
+        class="flex items-center gap-1 px-3 py-1.5 bg-[#0C0F24] border border-[#6971A2] rounded-lg text-white text-sm hover:border-[#cbacf9]/50 transition-colors"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+        <span>{otherLang.toUpperCase()}</span>
+      </a>
+    </div>
+
+    <div class="flex items-center gap-2 md:hidden">
+      <a
+        href={`/${otherLang}/`}
+        class="flex items-center gap-1 px-2 py-1 text-white text-xs border border-[#6971A2] rounded-lg"
+      >
+        {otherLang.toUpperCase()}
+      </a>
+
+      <button id="menu-toggle" class="text-white p-2" aria-label="Toggle menu">
+        <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M4 8l16 0" />
+          <path d="M4 16l16 0" />
+        </svg>
+        <svg id="close-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M18 6l-12 12" />
+          <path d="M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-menu" class="mobile-menu fixed inset-0 z-40 bg-[#04071D]/95 backdrop-blur-sm pt-32 px-6 hidden md:hidden">
+    <div class="flex flex-col items-center gap-6">
+      {options.map((option) => (
+        <a
+          class="mobile-link text-white text-2xl hover:text-[#cbacf9] transition-colors"
+          href={option.href}
+        >
+          {option.name}
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+
+  function toggleMenu() {
+    const isOpen = !mobileMenu?.classList.contains('hidden');
+
+    if (isOpen) {
+      mobileMenu?.classList.add('hidden');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+      document.body.style.overflow = '';
+    } else {
+      mobileMenu?.classList.remove('hidden');
+      menuIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  menuToggle?.addEventListener('click', toggleMenu);
+
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+      document.body.style.overflow = '';
+    });
+  });
+</script>
+
+<style>
+  .mobile-menu {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .mobile-menu.hidden {
+    display: none;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .mobile-link {
+    animation: slideIn 0.3s ease-out backwards;
+  }
+
+  .mobile-link:nth-child(1) { animation-delay: 0.1s; }
+  .mobile-link:nth-child(2) { animation-delay: 0.15s; }
+  .mobile-link:nth-child(3) { animation-delay: 0.2s; }
+  .mobile-link:nth-child(4) { animation-delay: 0.25s; }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

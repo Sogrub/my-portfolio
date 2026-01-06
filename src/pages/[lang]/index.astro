@@ -1,0 +1,42 @@
+---
+import Experience from "../../components/Experience.astro";
+import Header from "../../components/Header.astro";
+import About from "../../components/About.astro";
+import Hero from "../../components/Hero.astro";
+import Footer from "../../components/Footer.astro";
+import { translations, type Lang } from "../../i18n/translations";
+
+import "../../styles/global.css";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "en" } }, { params: { lang: "es" } }];
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = translations[lang];
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Diego Burgos | Sogrub</title>
+  </head>
+  <body
+    class="flex flex-col bg-[#0C0F24] w-full px-4 md:px-0 lg:max-w-4xl md:max-w-2xl mx-auto"
+  >
+    <Header lang={lang} t={t.nav} />
+    <Hero t={t.hero} />
+    <About t={t.about} />
+    <Experience lang={lang} t={t.experience} />
+    <Footer t={t.footer} />
+  </body>
+</html>

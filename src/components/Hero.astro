@@ -1,0 +1,45 @@
+---
+interface Props {
+  t: {
+    title: string;
+    description: string;
+    cta: string;
+  };
+}
+
+const { t } = Astro.props;
+---
+
+<section id="hero" class="flex flex-col gap-6 justify-center items-center">
+  <article class="flex flex-col gap-6 text-white text-center">
+    <h1 class="text-5xl" set:html={t.title} />
+    <p class="text-2xl" set:html={t.description} />
+  </article>
+  <a
+    class="flex justify-center items-center py-2 px-6 border border-[#6971A2] rounded-2xl cursor-pointer text-white"
+    href="https://www.linkedin.com/in/sogrub/"
+    target="_blank"
+  >
+    <span class="text-xl">{t.cta}</span>
+    <svg
+      width="48"
+      height="48"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-badge-right"
+      ><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path
+        d="M13 7h-6l4 5l-4 5h6l4 -5l-4 -5"></path></svg
+    >
+  </a>
+</section>
+
+<style>
+  article :global(b) {
+    color: #cbacf9;
+    font-weight: bold;
+  }
+</style>
