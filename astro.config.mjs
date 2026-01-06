@@ -6,13 +6,12 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: "https://sogrub.github.io",
-  base: "/my-portfolio",
 
   i18n: {
     defaultLocale: "en",
     locales: ["en", "es"],
     routing: {
-        prefixDefaultLocale: true,
+        prefixDefaultLocale: false,
         redirectToDefaultLocale: true
     }
   },
